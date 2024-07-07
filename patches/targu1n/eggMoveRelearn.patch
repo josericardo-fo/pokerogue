@@ -1,0 +1,4 @@
+~targu1n-EggMoveRelearn
+#src/field/pokemon.ts
+-    return this.getLevelMoves(1, true, false, true).map(lm => lm[1]).filter(lm => !this.moveset.filter(m => m.moveId === lm).length).filter((move: Moves, i: integer, array: Moves[]) => array.indexOf(move) === i);
+    return this.scene.mods.getLearnableMoves(this.scene, this.species, this.fusionSpecies, this.moveset, this.getLevelMoves(1, true));

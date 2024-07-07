@@ -1,3 +1,6 @@
+//targu1n-NewRng
+//targu1n-BattleInfoOverlay
+//targu1n-Settings
 import Phaser from "phaser";
 import UI from "./ui/ui";
 import { NextEncounterPhase, NewBiomeEncounterPhase, SelectBiomePhase, MessagePhase, TurnInitPhase, ReturnPhase, LevelCapPhase, ShowTrainerPhase, LoginPhase, MovePhase, TitlePhase, SwitchPhase } from "./phases";
@@ -62,6 +65,8 @@ import { Biome } from "#enums/biome";
 import { ExpNotification } from "#enums/exp-notification";
 import { MoneyFormat } from "#enums/money-format";
 import { Moves } from "#enums/moves";
+import { Mods } from "./mods";
+import { ModData } from "./mod-Data";
 import { PlayerGender } from "#enums/player-gender";
 import { Species } from "#enums/species";
 import { UiTheme } from "#enums/ui-theme";
@@ -217,6 +222,8 @@ export default class BattleScene extends SceneBase {
   private scoreText: Phaser.GameObjects.Text;
   private luckLabelText: Phaser.GameObjects.Text;
   private luckText: Phaser.GameObjects.Text;
+  public weatherText: Phaser.GameObjects.Text;
+  public terrainText: Phaser.GameObjects.Text;
   private modifierBar: ModifierBar;
   private enemyModifierBar: ModifierBar;
   public arenaFlyout: ArenaFlyout;
@@ -247,6 +254,8 @@ export default class BattleScene extends SceneBase {
   public rngCounter: integer = 0;
   public rngSeedOverride: string = "";
   public rngOffset: integer = 0;
+  public mods: Mods = new Mods();
+  public modData: ModData;
 
   public inputMethod: string;
   private infoToggles: InfoToggle[] = [];
@@ -313,6 +322,7 @@ export default class BattleScene extends SceneBase {
     initGameSpeed.apply(this);
     this.inputController = new InputsController(this);
     this.uiInputs = new UiInputs(this, this.inputController);
+    //this.modData = new ModData(this);
 
     this.gameData = new GameData(this);
 
@@ -469,6 +479,14 @@ export default class BattleScene extends SceneBase {
     this.luckLabelText.setOrigin(1, 0.5);
     this.luckLabelText.setVisible(false);
     this.fieldUI.add(this.luckLabelText);
+    this.weatherText = addTextObject(this, (this.game.canvas.width / 6) - 2, 0, "", TextStyle.PARTY, { fontSize: "54px" });
+    this.weatherText.setName("text-terrain");
+    this.weatherText.setOrigin(1, 0.5);
+    this.fieldUI.add(this.weatherText);
+    this.terrainText = addTextObject(this, (this.game.canvas.width / 6) - 2, 0, "", TextStyle.PARTY, { fontSize: "54px" });
+    this.terrainText.setName("text-weather");
+    this.terrainText.setOrigin(1, 0.5);
+    this.fieldUI.add(this.terrainText);
 
     this.arenaFlyout = new ArenaFlyout(this);
     this.fieldUI.add(this.arenaFlyout);
@@ -590,6 +608,8 @@ export default class BattleScene extends SceneBase {
     this.updateBiomeWaveText();
     this.updateMoneyText();
     this.updateScoreText();
+    this.mods.updateWeatherText(this);
+    this.mods.updateTerrainText(this);
   }
 
   async initExpSprites(): Promise<void> {
@@ -908,6 +928,7 @@ export default class BattleScene extends SceneBase {
 
   reset(clearScene: boolean = false, clearData: boolean = false, reloadI18n: boolean = false): void {
     if (clearData) {
+      //this.modData = new ModData(this);
       this.gameData = new GameData(this);
     }
 
@@ -946,6 +967,10 @@ export default class BattleScene extends SceneBase {
 
     this.biomeWaveText.setText(startingWave.toString());
     this.biomeWaveText.setVisible(false);
+    this.mods.updateWeatherText(this);
+    this.mods.updateTerrainText(this);
+    this.weatherText.setVisible(false);
+    this.terrainText.setVisible(false);
 
     this.updateMoneyText();
     this.moneyText.setVisible(false);
@@ -1499,6 +1524,10 @@ export default class BattleScene extends SceneBase {
   }
 
   updateAndShowText(duration: integer): void {
+    this.mods.updateWeatherText(this);
+    this.mods.updateTerrainText(this);
+    this.weatherText.setVisible(false);
+    this.terrainText.setVisible(false);
     const labels = [ this.luckLabelText, this.luckText ];
     labels.forEach(t => t.setAlpha(0));
     const luckValue = getPartyLuckValue(this.getParty());
@@ -1520,6 +1549,8 @@ export default class BattleScene extends SceneBase {
   }
 
   hideLuckText(duration: integer): void {
+    this.mods.updateWeatherText(this);
+    this.mods.updateTerrainText(this);
     if (this.reroll) {
       return;
     }
@@ -1541,6 +1572,8 @@ export default class BattleScene extends SceneBase {
       -(this.game.canvas.height / 6) + (enemyModifierCount ? enemyModifierCount <= 12 ? 15 : 24 : 0) + (biomeWaveTextHeight / 2)
     );
     this.moneyText.setY(this.biomeWaveText.y + 10);
+    this.weatherText.setY(this.moneyText.y + 10);
+    this.terrainText.setY(this.weatherText.visible ? this.weatherText.y+8 : this.moneyText.y +10);
     this.scoreText.setY(this.moneyText.y + 10);
     [ this.luckLabelText, this.luckText ].map(l => l.setY((this.scoreText.visible ? this.scoreText : this.moneyText).y + 10));
     const offsetY = (this.scoreText.visible ? this.scoreText : this.moneyText).y + 15;
@@ -2453,12 +2486,17 @@ export default class BattleScene extends SceneBase {
 
   applyModifiersInternal(modifiers: PersistentModifier[], player: boolean, args: any[]): PersistentModifier[] {
     const appliedModifiers: PersistentModifier[] = [];
+    const state = Phaser.Math.RND.state();
+    if (this.currentBattle) {
+      Phaser.Math.RND.sow([this.currentBattle.battleSeed]);
+    }
     for (const modifier of modifiers) {
       if (modifier.apply(args)) {
         console.log("Applied", modifier.type.name, !player ? "(enemy)" : "");
         appliedModifiers.push(modifier);
       }
     }
+    Phaser.Math.RND.state(state);
 
     return appliedModifiers;
   }
@@ -2541,5 +2579,9 @@ export default class BattleScene extends SceneBase {
       }) : []
     };
     (window as any).gameInfo = gameInfo;
+  }
+  updateBattleInfoOverlayPosition() {
+    this.weatherText.setY(this.moneyText.y + 10);
+    this.terrainText.setY(this.weatherText.visible ? this.weatherText.y+8 : this.moneyText.y +10);
   }
 }

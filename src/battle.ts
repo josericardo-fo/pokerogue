@@ -1,3 +1,4 @@
+//targu1n-NewRng
 import BattleScene from "./battle-scene";
 import { EnemyPokemon, PlayerPokemon, QueuedMove } from "./field/pokemon";
 import { Command } from "./ui/command-ui-handler";
@@ -88,7 +89,7 @@ export default class Battle {
     this.postBattleLoot = [];
     this.escapeAttempts = 0;
     this.started = false;
-    this.battleSeed = Utils.randomString(16, true);
+    this.battleSeed = Utils.randomString(16, false);
     this.battleSeedState = null;
     this.moneyScattered = 0;
     this.lastUsedPokeball = null;

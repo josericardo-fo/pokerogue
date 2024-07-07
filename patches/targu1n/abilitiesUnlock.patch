@@ -1,0 +1,15 @@
+~targu1n-AbilitiesUnlock
+#src/ui/starter-select-ui-handler.ts
++                item: "candy",
++                itemArgs: starterColors[this.lastSpecies.speciesId]
++              });
++            }
+            if(!this.scene.mods.hasAllAbilityAttrs(this.lastSpecies, starterData.abilityAttr)){
+              options.push({
+                label: "Unlock Abilities",
+                handler: () => {
+                  ui.setMode(Mode.STARTER_SELECT).then(() => this.scene.mods.showAbilityUnlock(this.scene, ui, this.lastSpecies, candyCount, this, this.pokemonCandyCountText));
+                  return true;
+                }
+              });
+            }

@@ -1,0 +1,6 @@
+~targu1n-IncreaseShiny
+#src/field/pokemon.ts
++      shinyThreshold.value = thresholdOverride;
++    }
+    shinyThreshold.value *= this.scene.mods.shinyModifier;
+

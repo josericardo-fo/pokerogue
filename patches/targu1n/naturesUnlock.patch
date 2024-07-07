@@ -1,0 +1,15 @@
+~targu1n-NaturesUnlock
+#src/ui/starter-select-ui-handler.ts
++                item: "candy",
++                itemArgs: starterColors[this.lastSpecies.speciesId]
++              });
++            }
+            if(!this.scene.mods.hasAllNatures(this.scene, this.lastSpecies)){
+              options.push({
+                label: "Unlock Nature",
+                handler: () => {
+                   ui.setMode(Mode.STARTER_SELECT).then(() => this.scene.mods.showNatureUnlock(this.scene, ui, this.lastSpecies, candyCount, this, this.pokemonCandyCountText));
+                  return true;
+                }
+              });
+            }

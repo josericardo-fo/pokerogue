@@ -1,3 +1,4 @@
+//targu1n-InfinitePokeballs
 import { CommandPhase } from "../phases";
 import BattleScene from "../battle-scene";
 import { getPokeballName } from "../data/pokeball";
@@ -71,7 +72,7 @@ export default class BallUiHandler extends UiHandler {
       const commandPhase = this.scene.getCurrentPhase() as CommandPhase;
       success = true;
       if (button === Button.ACTION && this.cursor < pokeballTypeCount) {
-        if (this.scene.pokeballCounts[this.cursor]) {
+        if (this.scene.pokeballCounts[this.cursor] > 0 || this.scene.mods.infiniteBalls) {
           if (commandPhase.handleCommand(Command.BALL, this.cursor)) {
             this.scene.ui.setMode(Mode.COMMAND, commandPhase.getFieldIndex());
             this.scene.ui.setMode(Mode.MESSAGE);

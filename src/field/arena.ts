@@ -1,3 +1,4 @@
+//targu1n-RegenCompletePokemon
 import BattleScene from "../battle-scene";
 import { BiomePoolTier, PokemonPools, BiomeTierTrainerPools, biomePokemonPools, biomeTrainerPools } from "../data/biomes";
 import { Constructor } from "#app/utils";
@@ -139,6 +140,7 @@ export class Arena {
           break;
         }
       }
+      regen = regen || this.scene.mods.regenerateCompletedPokemon(species, this.scene);
     }
 
     if (regen && (attempt || 0) < 10) {

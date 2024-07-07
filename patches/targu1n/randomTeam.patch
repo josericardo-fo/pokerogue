@@ -1,0 +1,40 @@
+~targu1n-RandomTeam
+#src/ui/starter-select-ui-handler.ts
++      } else {
+-        error = true;
+        this.scene.mods.generateRandomTeam(this, this.scene, this.genSpecies);
+        success = true;
+
+
+#src/ui/starter-select-ui-handler.ts
++  }
+  setGen(gen:number){
+
+    function sign(num: number): -1 | 0 | 1 {
+      return num >= 0 ? 1 : num < 0 ? -1 : 0;
+    }
+
+    this.startCursorObj.setVisible(false);
+    let gensToChange = gen - this.getGenCursorWithScroll()
+
+    this.setGenMode(true);
+
+    for(let i=0; i< Math.abs(gensToChange); i++){
+      this.setCursor(this.genCursor + sign(gensToChange)); 
+    }
+  }
+
+
+#src/ui/starter-select-ui-handler.ts
++  }
+  addToParty(slot: number): Promise<void>{
+
+    this.setGenMode(false);
+    this.setCursor(slot);
+
+    if(this.processInput(Button.ACTION)){
+      this.getUi().processInput(Button.ACTION)
+    }
+
+    return Promise.resolve();
+  }

@@ -1,3 +1,4 @@
+//targu1n-FastEggHatch
 import SoundFade from "phaser3-rex-plugins/plugins/soundfade";
 import i18next from "i18next";
 import { Phase } from "./phase";
@@ -145,6 +146,7 @@ export class EggHatchPhase extends Phase {
       this.pokemon = pokemon;
 
       pokemon.loadAssets().then(() => {
+        return this.infoContainer.show(this.pokemon, false, 16).then(() => setTimeout(() => this.scene.mods.fastHatchAnimation(this.scene, pokemon, this.eggMoveIndex, this.eggContainer, this.pokemonSprite, this.pokemonShinySparkle).then(() => this.end()), 100));
         this.canSkip = true;
 
         this.scene.time.delayedCall(1000, () => {

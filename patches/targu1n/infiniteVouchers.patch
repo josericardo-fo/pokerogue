@@ -1,0 +1,46 @@
+~targu1n-InfiniteVouchers
+#src/ui/egg-gacha-ui-handler.ts
+-            if (!this.scene.gameData.voucherCounts[VoucherType.REGULAR] && !Overrides.EGG_FREE_GACHA_PULLS_OVERRIDE) {
+            if (!this.scene.gameData.voucherCounts[VoucherType.REGULAR] && !Overrides.EGG_FREE_GACHA_PULLS_OVERRIDE && !this.scene.mods.infiniteVouchers) {
+
+
+#src/ui/egg-gacha-ui-handler.ts
+-              if (!Overrides.EGG_FREE_GACHA_PULLS_OVERRIDE) {
+              if (!Overrides.EGG_FREE_GACHA_PULLS_OVERRIDE && !this.scene.mods.infiniteVouchers) {
+
+
+#src/ui/egg-gacha-ui-handler.ts
+-            if (!this.scene.gameData.voucherCounts[VoucherType.PLUS] && !Overrides.EGG_FREE_GACHA_PULLS_OVERRIDE) {
+            if (!this.scene.gameData.voucherCounts[VoucherType.PLUS] && !Overrides.EGG_FREE_GACHA_PULLS_OVERRIDE && !this.scene.mods.infiniteVouchers) {
+
+
+#src/ui/egg-gacha-ui-handler.ts
+-              if (!Overrides.EGG_FREE_GACHA_PULLS_OVERRIDE) {
+              if (!Overrides.EGG_FREE_GACHA_PULLS_OVERRIDE && !this.scene.mods.infiniteVouchers) {
+
+
+#src/ui/egg-gacha-ui-handler.ts
+-            if ((this.cursor === 1 && this.scene.gameData.voucherCounts[VoucherType.REGULAR] < 10 && !Overrides.EGG_FREE_GACHA_PULLS_OVERRIDE)
+-                  || (this.cursor === 3 && !this.scene.gameData.voucherCounts[VoucherType.PREMIUM] && !Overrides.EGG_FREE_GACHA_PULLS_OVERRIDE)) {
+            if ((this.cursor === 1 && this.scene.gameData.voucherCounts[VoucherType.REGULAR] < 10 && !Overrides.EGG_FREE_GACHA_PULLS_OVERRIDE && !this.scene.mods.infiniteVouchers)
+                  || (this.cursor === 3 && !this.scene.gameData.voucherCounts[VoucherType.PREMIUM] && !Overrides.EGG_FREE_GACHA_PULLS_OVERRIDE && !this.scene.mods.infiniteVouchers)) {
+
+
+#src/ui/egg-gacha-ui-handler.ts
+-                if (!Overrides.EGG_FREE_GACHA_PULLS_OVERRIDE) {
+                if (!Overrides.EGG_FREE_GACHA_PULLS_OVERRIDE && !this.scene.mods.infiniteVouchers) {
+
+
+#src/ui/egg-gacha-ui-handler.ts
+-                if (!Overrides.EGG_FREE_GACHA_PULLS_OVERRIDE) {
+                if (!Overrides.EGG_FREE_GACHA_PULLS_OVERRIDE && !this.scene.mods.infiniteVouchers) {
+
+
+#src/ui/egg-gacha-ui-handler.ts
+-            if (!this.scene.gameData.voucherCounts[VoucherType.GOLDEN] && !Overrides.EGG_FREE_GACHA_PULLS_OVERRIDE) {
+            if (!this.scene.gameData.voucherCounts[VoucherType.GOLDEN] && !Overrides.EGG_FREE_GACHA_PULLS_OVERRIDE && !this.scene.mods.infiniteVouchers) {
+
+
+#src/ui/egg-gacha-ui-handler.ts
+-              if (!Overrides.EGG_FREE_GACHA_PULLS_OVERRIDE) {
+              if (!Overrides.EGG_FREE_GACHA_PULLS_OVERRIDE && !this.scene.mods.infiniteVouchers) {

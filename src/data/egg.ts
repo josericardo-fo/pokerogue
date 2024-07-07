@@ -1,3 +1,6 @@
+//targu1n-EggSpeciesPitty
+//targu1n-IncreaseEggRarity
+//targu1n-NoRareEggMoves
 import BattleScene from "../battle-scene";
 import PokemonSpecies, { getPokemonSpecies, speciesStarters } from "./pokemon-species";
 import { VariantTier } from "../enums/variant-tiers";
@@ -20,9 +23,9 @@ const SAME_SPECIES_EGG_HA_RATE = 16;
 const MANAPHY_EGG_MANAPHY_RATE = 8;
 
 // 1/x for legendary eggs, 1/x*2 for epic eggs, 1/x*4 for rare eggs, and 1/x*8 for common eggs
-const DEFAULT_RARE_EGGMOVE_RATE = 6;
-const SAME_SPECIES_EGG_RARE_EGGMOVE_RATE = 3;
-const GACHA_MOVE_UP_RARE_EGGMOVE_RATE = 3;
+const DEFAULT_RARE_EGGMOVE_RATE = 1;
+const SAME_SPECIES_EGG_RARE_EGGMOVE_RATE = 1;
+const GACHA_MOVE_UP_RARE_EGGMOVE_RATE = 1;
 
 /** Egg options to override egg properties */
 export interface IEggOptions {
@@ -142,7 +145,7 @@ export class Egg {
 
     this._sourceType = eggOptions.sourceType ?? undefined;
     // Ensure _sourceType is defined before invoking rollEggTier(), as it is referenced
-    this._tier = eggOptions.tier ?? (Overrides.EGG_TIER_OVERRIDE ?? this.rollEggTier());
+    this._tier = eggOptions.tier ?? (Overrides.EGG_TIER_OVERRIDE ?? this.rollEggTier(eggOptions.scene.mods.overrideEggRarityIndex));
     // If egg was pulled, check if egg pity needs to override the egg tier
     if (eggOptions.pulled) {
       // Needs this._tier and this._sourceType to work
@@ -316,10 +319,10 @@ export class Egg {
     return 100;
   }
 
-  private rollEggTier(): EggTier {
+  private rollEggTier(mult?: number): EggTier {
     const tierValueOffset = this._sourceType === EggSourceType.GACHA_LEGENDARY ? 1 : 0;
     const tierValue = Utils.randInt(256);
-    return tierValue >= 52 + tierValueOffset ? EggTier.COMMON : tierValue >= 8 + tierValueOffset ? EggTier.GREAT : tierValue >= 1 + tierValueOffset ? EggTier.ULTRA : EggTier.MASTER;
+    return tierValue >= (52 + tierValueOffset)*mult ? EggTier.COMMON : tierValue >= (8 + tierValueOffset)*mult ? EggTier.GREAT : tierValue >= (1 + tierValueOffset)*mult ? EggTier.ULTRA : EggTier.MASTER;
   }
 
   private rollSpecies(scene: BattleScene): Species {
@@ -371,7 +374,7 @@ export class Egg {
       .filter(s => !pokemonPrevolutions.hasOwnProperty(s) && getPokemonSpecies(s).isObtainable() && ignoredSpecies.indexOf(s) === -1);
 
     // If this is the 10th egg without unlocking something new, attempt to force it.
-    if (scene.gameData.unlockPity[this.tier] >= 9) {
+    if (scene.gameData.unlockPity[this.tier] >= scene.mods.eggSpeciesPitty) {
       const lockedPool = speciesPool.filter(s => !scene.gameData.dexData[s].caughtAttr && !scene.gameData.eggs.some(e => e.species === s));
       if (lockedPool.length) { // Skip this if everything is unlocked
         speciesPool = lockedPool;

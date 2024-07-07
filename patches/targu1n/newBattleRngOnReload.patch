@@ -1,0 +1,16 @@
+~targu1n-NewRng
+#src/battle.ts
+-    this.battleSeed = Utils.randomString(16, true);
+    this.battleSeed = Utils.randomString(16, false);
+
+#src/battle-scene.ts
++    const appliedModifiers: PersistentModifier[] = [];
+    const state = Phaser.Math.RND.state();
+    if(this.currentBattle) Phaser.Math.RND.sow([this.currentBattle.battleSeed]);
+
+#src/battle-scene.ts
++        appliedModifiers.push(modifier);
++      }
++    }
+    Phaser.Math.RND.state(state);
+

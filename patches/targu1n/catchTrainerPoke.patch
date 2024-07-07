@@ -1,0 +1,55 @@
+~targu1n-CatchTrainerPokes
+#src/phases.ts
++    const switchedPokemon = party[this.slotIndex];
+if(this.scene.currentBattle.battleType === BattleType.TRAINER && this.getPokemon().isFainted() && this.doReturn) return this.end();
+
+
+#src/phases.ts
+-      } else if (this.scene.currentBattle.battleType === BattleType.TRAINER) {
+-        this.scene.ui.setMode(Mode.COMMAND, this.fieldIndex);
+      } else if (!this.scene.mods.catchTrainerPokemon && this.scene.currentBattle.battleType === BattleType.TRAINER) {
+        this.scene.ui.setMode(Mode.COMMAND, this.fieldIndex);
+
+
+#src/phases.ts
++        const targets = this.scene.getEnemyField().filter(p => p.isActive(true)).map(p => p.getBattlerIndex());
+        const enemyPokemon = this.scene.getEnemyField().filter(p => p.isActive(true))[0]; 
+
+
+#src/phases.ts
+-          }, null, true);
+-        } else if (cursor < 5) {
+          }, null, true);
+        } else if (this.scene.currentBattle.battleType === BattleType.TRAINER && this.scene.mods.catchTrainerPokemonRestrictions && 
+          (enemyPokemon.species.subLegendary || enemyPokemon.species.legendary || enemyPokemon.species.mythical || cursor < PokeballType.ROGUE_BALL)) {
+            this.scene.ui.setMode(Mode.COMMAND, this.fieldIndex);
+            this.scene.ui.setMode(Mode.MESSAGE);
+            let errorMessage: string
+            if(enemyPokemon.species.subLegendary || enemyPokemon.species.legendary || enemyPokemon.species.mythical) errorMessage = "You can't catch this Pokémon!"
+            else errorMessage = "You need a stronger Pokéball to catch another trainer's Pokémon!"
+            this.scene.ui.showText(errorMessage, null, () => {
+            this.scene.ui.showText(null, 0);
+            this.scene.ui.setMode(Mode.COMMAND, this.fieldIndex);
+          }, null, true);
+
+        } else if (cursor < 5) {
+
+
+#src/phases.ts
+-    this.scene.unshiftPhase(new VictoryPhase(this.scene, this.battlerIndex));
+    if(this.scene.currentBattle.battleType !== BattleType.TRAINER){
+      this.scene.unshiftPhase(new VictoryPhase(this.scene, this.battlerIndex));
+    }
+
+
+#src/phases.ts
++      const removePokemon = () => {
+        if(this.scene.currentBattle.battleType === BattleType.TRAINER) return;
+
+#src/phases.ts
++        } else {
++          addToParty();
++        }
+        if(this.scene.currentBattle.battleType === BattleType.TRAINER) pokemon.damage(pokemon.hp, true, true);
+
+

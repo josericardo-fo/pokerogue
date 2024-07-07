@@ -1,0 +1,16 @@
+~targu1n-IVsUnlock
+#src/ui/starter-select-ui-handler.ts
++                item: "candy",
++                itemArgs: starterColors[this.lastSpecies.speciesId]
++              });
++            }
+            const isAnyIvBelow31 = [0, 1, 2, 3, 4, 5].some((stat) => this.scene.gameData.dexData[this.lastSpecies.speciesId].ivs[stat] < 31);
+            if(isAnyIvBelow31){
+              options.push({
+                label: "Improve IVs",
+                handler: () => {
+                  ui.setMode(Mode.STARTER_SELECT).then(() => this.scene.mods.showIVsUnlock(this.scene, ui, this.lastSpecies, candyCount, this, this.pokemonCandyCountText));
+                  return true;
+                }
+              });
+            }

@@ -1,3 +1,4 @@
+//targu1n-Settings
 import BattleScene from "#app/battle-scene";
 import {Mode} from "#app/ui/ui";
 import {InputsIcons} from "#app/ui/settings/abstract-control-settings-ui-handler.js";
@@ -28,12 +29,13 @@ export class NavigationManager {
   constructor() {
     this.modes = [
       Mode.SETTINGS,
+      Mode.SETTINGS_MOD,
       Mode.SETTINGS_DISPLAY,
       Mode.SETTINGS_AUDIO,
       Mode.SETTINGS_GAMEPAD,
       Mode.SETTINGS_KEYBOARD,
     ];
-    this.labels = [i18next.t("settings:general"), i18next.t("settings:display"), i18next.t("settings:audio"), i18next.t("settings:gamepad"), i18next.t("settings:keyboard")];
+    this.labels = [i18next.t("settings:general"), "Mods", i18next.t("settings:display"), i18next.t("settings:audio"), i18next.t("settings:gamepad"), i18next.t("settings:keyboard")];
   }
 
   public reset() {

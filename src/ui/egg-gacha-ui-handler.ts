@@ -1,3 +1,4 @@
+//targu1n-InfiniteVouchers
 import BattleScene from "../battle-scene";
 import { Mode } from "./ui";
 import { TextStyle, addTextObject, getEggTierTextTint } from "./text";
@@ -617,11 +618,11 @@ export default class EggGachaUiHandler extends MessageUiHandler {
         case Button.ACTION:
           switch (this.cursor) {
           case 0:
-            if (!this.scene.gameData.voucherCounts[VoucherType.REGULAR] && !Overrides.EGG_FREE_GACHA_PULLS_OVERRIDE) {
+            if (!this.scene.gameData.voucherCounts[VoucherType.REGULAR] && !Overrides.EGG_FREE_GACHA_PULLS_OVERRIDE && !this.scene.mods.infiniteVouchers) {
               error = true;
               this.showError(i18next.t("egg:notEnoughVouchers"));
             } else if (this.scene.gameData.eggs.length < 99) {
-              if (!Overrides.EGG_FREE_GACHA_PULLS_OVERRIDE) {
+              if (!Overrides.EGG_FREE_GACHA_PULLS_OVERRIDE && !this.scene.mods.infiniteVouchers) {
                 this.consumeVouchers(VoucherType.REGULAR, 1);
               }
               this.pull();
@@ -632,11 +633,11 @@ export default class EggGachaUiHandler extends MessageUiHandler {
             }
             break;
           case 2:
-            if (!this.scene.gameData.voucherCounts[VoucherType.PLUS] && !Overrides.EGG_FREE_GACHA_PULLS_OVERRIDE) {
+            if (!this.scene.gameData.voucherCounts[VoucherType.PLUS] && !Overrides.EGG_FREE_GACHA_PULLS_OVERRIDE && !this.scene.mods.infiniteVouchers) {
               error = true;
               this.showError(i18next.t("egg:notEnoughVouchers"));
             } else if (this.scene.gameData.eggs.length < 95) {
-              if (!Overrides.EGG_FREE_GACHA_PULLS_OVERRIDE) {
+              if (!Overrides.EGG_FREE_GACHA_PULLS_OVERRIDE && !this.scene.mods.infiniteVouchers) {
                 this.consumeVouchers(VoucherType.PLUS, 1);
               }
               this.pull(5);
@@ -648,17 +649,17 @@ export default class EggGachaUiHandler extends MessageUiHandler {
             break;
           case 1:
           case 3:
-            if ((this.cursor === 1 && this.scene.gameData.voucherCounts[VoucherType.REGULAR] < 10 && !Overrides.EGG_FREE_GACHA_PULLS_OVERRIDE)
-                  || (this.cursor === 3 && !this.scene.gameData.voucherCounts[VoucherType.PREMIUM] && !Overrides.EGG_FREE_GACHA_PULLS_OVERRIDE)) {
+            if ((this.cursor === 1 && this.scene.gameData.voucherCounts[VoucherType.REGULAR] < 10 && !Overrides.EGG_FREE_GACHA_PULLS_OVERRIDE && !this.scene.mods.infiniteVouchers)
+                  || (this.cursor === 3 && !this.scene.gameData.voucherCounts[VoucherType.PREMIUM] && !Overrides.EGG_FREE_GACHA_PULLS_OVERRIDE && !this.scene.mods.infiniteVouchers)) {
               error = true;
               this.showError(i18next.t("egg:notEnoughVouchers"));
             } else if (this.scene.gameData.eggs.length < 90) {
               if (this.cursor === 3) {
-                if (!Overrides.EGG_FREE_GACHA_PULLS_OVERRIDE) {
+                if (!Overrides.EGG_FREE_GACHA_PULLS_OVERRIDE && !this.scene.mods.infiniteVouchers) {
                   this.consumeVouchers(VoucherType.PREMIUM, 1);
                 }
               } else {
-                if (!Overrides.EGG_FREE_GACHA_PULLS_OVERRIDE) {
+                if (!Overrides.EGG_FREE_GACHA_PULLS_OVERRIDE && !this.scene.mods.infiniteVouchers) {
                   this.consumeVouchers(VoucherType.REGULAR, 10);
                 }
               }
@@ -670,11 +671,11 @@ export default class EggGachaUiHandler extends MessageUiHandler {
             }
             break;
           case 4:
-            if (!this.scene.gameData.voucherCounts[VoucherType.GOLDEN] && !Overrides.EGG_FREE_GACHA_PULLS_OVERRIDE) {
+            if (!this.scene.gameData.voucherCounts[VoucherType.GOLDEN] && !Overrides.EGG_FREE_GACHA_PULLS_OVERRIDE && !this.scene.mods.infiniteVouchers) {
               error = true;
               this.showError(i18next.t("egg:notEnoughVouchers"));
             } else if (this.scene.gameData.eggs.length < 75) {
-              if (!Overrides.EGG_FREE_GACHA_PULLS_OVERRIDE) {
+              if (!Overrides.EGG_FREE_GACHA_PULLS_OVERRIDE && !this.scene.mods.infiniteVouchers) {
                 this.consumeVouchers(VoucherType.GOLDEN, 1);
               }
               this.pull(25);

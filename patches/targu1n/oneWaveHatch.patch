@@ -1,0 +1,4 @@
+~targu1n-OneWaveHatch
+#src/phases.ts
+-      return Overrides.EGG_IMMEDIATE_HATCH_OVERRIDE ? true : --egg.hatchWaves < 1;
+      return Overrides.EGG_IMMEDIATE_HATCH_OVERRIDE || this.scene.mods.overrideEggHatchWaves? true : --egg.hatchWaves < 1;

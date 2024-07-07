@@ -1,0 +1,16 @@
+~targu1n-IncreaseEggRarity
+#src/data/egg.ts
+-    this._tier = eggOptions.tier ?? (Overrides.EGG_TIER_OVERRIDE ?? this.rollEggTier());
+    this._tier = eggOptions.tier ?? (Overrides.EGG_TIER_OVERRIDE ?? this.rollEggTier(eggOptions.scene.mods.overrideEggRarityIndex));
+
+
+#src/data/egg.ts
+-  private rollEggTier(): EggTier {
+  private rollEggTier(mult?: number): EggTier {
+
+
+
+#src/data/egg.ts
+-    return tierValue >= 52 + tierValueOffset ? EggTier.COMMON : tierValue >= 8 + tierValueOffset ? EggTier.GREAT : tierValue >= 1 + tierValueOffset ? EggTier.ULTRA : EggTier.MASTER;
+    return tierValue >= (52 + tierValueOffset)*mult ? EggTier.COMMON : tierValue >= (8 + tierValueOffset)*mult ? EggTier.GREAT : tierValue >= (1 + tierValueOffset)*mult ? EggTier.ULTRA : EggTier.MASTER;
+

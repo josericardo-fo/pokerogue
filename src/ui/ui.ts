@@ -1,3 +1,4 @@
+//targu1n-Settings
 import {default as BattleScene} from "../battle-scene";
 import UiHandler from "./ui-handler";
 import BattleMessageUiHandler from "./battle-message-ui-handler";
@@ -13,6 +14,7 @@ import StarterSelectUiHandler from "./starter-select-ui-handler";
 import EvolutionSceneHandler from "./evolution-scene-handler";
 import TargetSelectUiHandler from "./target-select-ui-handler";
 import SettingsUiHandler from "./settings/settings-ui-handler";
+import ModSettingsUiHandler from "./settings/mod-settings-ui-handler";
 import SettingsGamepadUiHandler from "./settings/settings-gamepad-ui-handler";
 import GameChallengesUiHandler from "./challenges-select-ui-handler";
 import { TextStyle, addTextObject } from "./text";
@@ -66,6 +68,7 @@ export enum Mode {
   MENU,
   MENU_OPTION_SELECT,
   SETTINGS,
+  SETTINGS_MOD,
   SETTINGS_DISPLAY,
   SETTINGS_AUDIO,
   SETTINGS_GAMEPAD,
@@ -163,6 +166,7 @@ export default class UI extends Phaser.GameObjects.Container {
       new OptionSelectUiHandler(scene, Mode.MENU_OPTION_SELECT),
       // settings
       new SettingsUiHandler(scene),
+      new ModSettingsUiHandler(scene),
       new SettingsDisplayUiHandler(scene),
       new SettingsAudioUiHandler(scene),
       new SettingsGamepadUiHandler(scene),

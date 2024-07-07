@@ -1,0 +1,71 @@
+~targu1n-BattleInfoOverlay
+#src/phases.ts
+-    applyPostSummonAbAttrs(PostSummonAbAttr, pokemon).then(() => this.end());
+    applyPostSummonAbAttrs(PostSummonAbAttr, pokemon).then(() => {
+       if(pokemon.scene){
+        this.scene.mods.updateWeatherText(pokemon.scene); 
+        this.scene.mods.updateTerrainText(pokemon.scene); 
+       }
+       this.end()
+    });
+
+#src/phases.ts
++    if (this.scene.arena.terrain && !this.scene.arena.terrain.lapse()) {
++      this.scene.arena.trySetTerrain(TerrainType.NONE, false);
++    }
+    this.scene.mods.updateTerrainText(this.scene);
+    this.scene.mods.updateWeatherText(this.scene);  
+
+#src/battle-scene.ts
++  private luckText: Phaser.GameObjects.Text;
+  public weatherText: Phaser.GameObjects.Text;
+  public terrainText: Phaser.GameObjects.Text;
+
+#src/battle-scene.ts
++    this.fieldUI.add(this.luckLabelText);
+    this.weatherText = addTextObject(this, (this.game.canvas.width / 6) - 2, 0, "", TextStyle.PARTY, { fontSize: "54px" });
+    this.weatherText.setName("text-terrain");
+    this.weatherText.setOrigin(1, 0.5);
+    this.fieldUI.add(this.weatherText);
+
+    this.terrainText = addTextObject(this, (this.game.canvas.width / 6) - 2, 0, "", TextStyle.PARTY, { fontSize: "54px" });
+    this.terrainText.setName("text-weather");
+    this.terrainText.setOrigin(1, 0.5);
+    this.fieldUI.add(this.terrainText);
+
+#src/battle-scene.ts
++    this.updateMoneyText();
++    this.updateScoreText();
+    this.mods.updateWeatherText(this);
+    this.mods.updateTerrainText(this);
+
+#src/battle-scene.ts
++    this.biomeWaveText.setVisible(false);
+    this.mods.updateWeatherText(this);
+    this.mods.updateTerrainText(this);
+    this.weatherText.setVisible(false);
+    this.terrainText.setVisible(false);
+
+#src/battle-scene.ts
++  updateAndShowText(duration: integer): void {
+    this.mods.updateWeatherText(this);
+    this.mods.updateTerrainText(this);
+    this.weatherText.setVisible(false);
+    this.terrainText.setVisible(false);
+
+#src/battle-scene.ts
++  hideLuckText(duration: integer): void {
+    this.mods.updateWeatherText(this);
+    this.mods.updateTerrainText(this);
+
+#src/battle-scene.ts
++    this.moneyText.setY(this.biomeWaveText.y + 10);
+    this.weatherText.setY(this.moneyText.y + 10);
+    this.terrainText.setY(this.weatherText.visible ? this.weatherText.y+8 : this.moneyText.y +10);
+
+#src/battle-scene.ts
++  }
+  updateBattleInfoOverlayPosition(){
+    this.weatherText.setY(this.moneyText.y + 10);
+    this.terrainText.setY(this.weatherText.visible ? this.weatherText.y+8 : this.moneyText.y +10);
+  }
